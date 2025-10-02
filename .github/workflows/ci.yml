@@ -4,20 +4,19 @@ name: Week 5 CI/CD
 on:
   push:
     paths:
-      - '**/*.tf'
-      - '**/*.tfvars'
-      - '**/*.yml'
-      - '**/*.yaml'
+      - "**/*.tf"
+      - "**/*.tfvars"
+      - "**/*.yml"
+      - "**/*.yaml"
   pull_request:
     paths:
-      - '**/*.tf'
-      - '**/*.tfvars'
-      - '**/*.yml'
-      - '**/*.yaml'
+      - "**/*.tf"
+      - "**/*.tfvars"
+      - "**/*.yml"
+      - "**/*.yaml"
   workflow_dispatch:
 
 jobs:
-
   lint_test:
     name: Lint test
     runs-on: self-hosted
@@ -28,7 +27,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install test & lint tools
         run: |
@@ -41,7 +40,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -74,7 +73,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install security tools
         run: |
@@ -114,7 +113,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -130,3 +129,24 @@ jobs:
       - name: Run Ansible
         run: |
           ansible-playbook ansible/apache-playbook.yml
+
+  test_validate:
+      name: Test deployment
+      runs-on: self-hosted
+      needs: [deploy]
+      if: ${{ success() }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Wait for services
+          run: sleep 20
+
+        - name: Test Apache is running
+          run: |
+            ansible all -i ansible/inventory.ini -m shell -a "systemctl is-active apache2 || systemctl is-active httpd"
+
+        - name: Test HTTP response
+          run: |
+            ansible all -i ansible/inventory.ini -m uri -a "url=http://localhost return_content=yes"
+

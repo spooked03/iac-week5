@@ -23,7 +23,7 @@ resource "esxi_guest" "web" {
 
 # Generate Ansible inventory after IPs are available
 resource "local_file" "ansible_inventory" {
-  content = templatefile("${path.module}/../templates/inventory.tpl", {
+  content = templatefile("${path.module}/inventory.tpl", {
     web_vms = esxi_guest.web
   })
   filename = "${path.module}/../ansible/inventory.yaml"

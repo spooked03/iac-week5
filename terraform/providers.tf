@@ -1,6 +1,6 @@
 # Terraform configuration
 terraform {
-  cloud {
+  backend "remote" {
     organization = "spooked"
 
     workspaces {

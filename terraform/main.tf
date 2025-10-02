@@ -21,38 +21,13 @@ resource "esxi_guest" "web" {
   }
 }
 
-
-# # Wait for VMs to get IP addresses
-# resource "null_resource" "wait_for_ips" {
-#   count = length(esxi_guest.web) + length(esxi_guest.db)
-  
-#   provisioner "local-exec" {
-#     command = <<-EOT
-#       echo "Waiting for VM IP addresses to be assigned..."
-#       timeout=300
-#       elapsed=0
-#       while [ $elapsed -lt $timeout ]; do
-#         if terraform show -json | jq -r '.values.root_module.resources[] | select(.type=="esxi_guest") | .values.ip_address' | grep -v null > /dev/null; then
-#           echo "IP addresses detected!"
-#           break
-#         fi
-#         echo "Still waiting for IP addresses... ($elapsed/$timeout seconds)"
-#         sleep 10
-#         elapsed=$((elapsed + 10))
-#       done
-#     EOT
-#   }
-  
-#   depends_on = [esxi_guest.web, esxi_guest.db]
-# }
-
 # Generate Ansible inventory after IPs are available
 resource "local_file" "ansible_inventory" {
   content = templatefile("${path.module}/../templates/inventory.tpl", {
     web_vms = esxi_guest.web
   })
   filename = "${path.module}/../ansible/inventory.yaml"
-  
+
   # depends_on = [null_resource.wait_for_ips]
 }
 

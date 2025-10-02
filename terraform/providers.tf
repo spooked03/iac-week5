@@ -5,7 +5,7 @@ terraform {
       source = "josenk/esxi"
     }
     local = {
-      source  = "hashicorp/local"
+      source = "hashicorp/local"
     }
   }
 }

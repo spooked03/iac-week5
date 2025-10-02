@@ -127,9 +127,26 @@ jobs:
           terraform init -input=false
           terraform apply -auto-approve -input=false
 
+      - name: Verify inventory file was created
+        run: |
+          ls -la ansible/
+          if [ -f ansible/inventory.yaml ]; then
+            echo "Inventory file created successfully"
+            cat ansible/inventory.yaml
+          else
+            echo "ERROR: Inventory file not created!"
+            exit 1
+          fi
+
+      - name: Upload inventory file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansible-inventory
+          path: ansible/inventory.yaml
+
       - name: Run Ansible
         run: |
-          ansible-playbook ansible/apache-playbook.yml
+          ansible-playbook -i ansible/inventory.yaml ansible/apache-playbook.yml
 
   test_validate:
     name: Test deployment
@@ -145,10 +162,10 @@ jobs:
 
       - name: Test Apache is running
         run: |
-          ansible all -i ansible/inventory.ini -m shell \
+          ansible all -i ansible/inventory.yaml -m shell \
             -a "systemctl is-active apache2 || systemctl is-active httpd"
 
       - name: Test HTTP response
         run: |
-          ansible all -i ansible/inventory.ini -m uri \
+          ansible all -i ansible/inventory.yaml -m uri \
             -a "url=http://localhost return_content=yes"

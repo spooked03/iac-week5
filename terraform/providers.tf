@@ -1,8 +1,8 @@
 # Terraform configuration
 terraform {
   cloud {
-    organization = "spooked"  # Change this!
-    
+    organization = "spooked"
+
     workspaces {
       name = "iac-week5"
     }

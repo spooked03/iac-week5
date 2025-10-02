@@ -1,7 +1,7 @@
 all:
   hosts:
     web-week5:
-      ansible_host: 192.168.1.126
+      ansible_host: 192.168.1.130
   vars:
     ansible_user: nessie
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
@@ -10,4 +10,5 @@ all:
     web:
       hosts:
         web-week5:
-          ansible_host: 192.168.1.126
+          ansible_host: 192.168.1.130
+ 

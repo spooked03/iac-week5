@@ -1,4 +1,3 @@
-
 ---
 # cloud-config
 
@@ -12,4 +11,6 @@ users:
     shell: /bin/fish
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG8zVpqGrGcZoQJ4Sf42Uv8GnfWYhITITvUo9PyMT963 student@Ubuntu2404DesktopGold-mcm42343-305368029539
+      - ssh-ed25519 \
+        AAAAC3NzaC1lZDI1NTE5AAAAIG8zVpqGrGcZoQJ4Sf42Uv8GnfWYhITITvUo9PyMT963 \
+        student@Ubuntu2404DesktopGold-mcm42343-305368029539

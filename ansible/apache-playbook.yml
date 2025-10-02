@@ -16,7 +16,7 @@
         state: present
       ignore_errors: true
 
-    - name: Start and enable Apache
+    - name: Start and enable Apache service
       ansible.builtin.systemd:
         name: apache2
         state: started

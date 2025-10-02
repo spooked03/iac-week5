@@ -61,7 +61,8 @@ jobs:
         run: terraform validate
 
       - name: Ansible lint
-        run: ansible-lint ansible/apache-playbook.yml
+        working-directory: ansible
+        run: ansible-lint apache-playbook.yml
 
   security_scan:
     name: Security scan

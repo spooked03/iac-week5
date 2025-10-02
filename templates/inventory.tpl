@@ -1,3 +1,4 @@
+---
 all:
   hosts:
 %{ for i, web in web_vms ~}

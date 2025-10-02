@@ -1,5 +1,13 @@
 # Terraform configuration
 terraform {
+  cloud {
+    organization = "spooked"  # Change this!
+    
+    workspaces {
+      name = "iac-week5"
+    }
+  }
+
   required_providers {
     esxi = {
       source = "josenk/esxi"

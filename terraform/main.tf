@@ -14,10 +14,10 @@ resource "esxi_guest" "web" {
   # Cloud-init configuration
   guestinfo = {
     "userdata.encoding" = "base64"
-    "userdata"          = filebase64("${path.module}/../cloudinit/userdata.yaml")
+    "userdata"          = filebase64("${path.module}/userdata.yaml")
 
     "metadata.encoding" = "base64"
-    "metadata"          = filebase64("${path.module}/../cloudinit/metadata.yaml")
+    "metadata"          = filebase64("${path.module}/metadata.yaml")
   }
 }
 

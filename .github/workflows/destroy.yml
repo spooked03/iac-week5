@@ -2,24 +2,24 @@
 name: Destroy infrastructuur
 
 on:
-  workflow_dispatch:   # Alleen zelf starten
+  workflow_dispatch:
 
 jobs:
   destroy:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.9.8
+          terraform_version: 1.13.3
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
